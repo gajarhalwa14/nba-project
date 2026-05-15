@@ -149,3 +149,23 @@ class GameByGame(db.Model):
     avg_pts        = db.Column(db.Float)
     date_string    = db.Column(db.Text)
 
+class UpcomingGame(db.Model):
+    __tablename__ = "upcoming_games"
+    __table_args__ = {"schema": "nba_data"}
+
+    gameid = db.Column(db.Text, primary_key=True, nullable=False)
+    gamecode = db.Column(db.Text)
+    gamestatus =db.Column(db.BigInteger)
+    gamestatustext = db.Column(db.Text)
+    gametimeutc = db.Column(db.Text)
+    gameet = db.Column(db.Text)
+    seriesgamenumber = db.Column(db.Text)
+    gamelabel = db.Column(db.Text)
+    gamesublabel = db.Column(db.Text)
+    ifnecessary = db.Column(db.Boolean)
+    seriesconference = db.Column(db.Text)
+    porounddesc = db.Column(db.Text)
+    gamesubtype = db.Column(db.Text)
+    isneutral = db.Column(db.Boolean)
+
+

@@ -1,5 +1,5 @@
 from app import ma
-from app.models import Player, Game, GameByGame, Totals
+from app.models import Player, Game, GameByGame, Totals, UpcomingGame
 from marshmallow import fields
 
 class PlayerSchema(ma.SQLAlchemyAutoSchema):
@@ -44,3 +44,11 @@ class TotalsSchema(ma.SQLAlchemyAutoSchema):
 
 total_schema = TotalsSchema()
 totals_schema = TotalsSchema(many=True)
+
+class UpcomingGameSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+         model = UpcomingGame
+         load_instance = True
+
+upcoming_game_schema = UpcomingGameSchema()
+upcoming_games_schema = UpcomingGameSchema(many=True)

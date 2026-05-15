@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from app import app
-from app.models import Player, Game, GameByGame, Totals
-from app.schema import player_schema, players_schema, game_schema, games_schema, gbg_schema, gbg_many_schema, total_schema, totals_schema
+from app.models import Player, Game, GameByGame, Totals, UpcomingGame
+from app.schema import player_schema, players_schema, game_schema, games_schema, gbg_schema, gbg_many_schema, total_schema, totals_schema, upcoming_game_schema, upcoming_games_schema
 from flask_cors import CORS
 
 CORS(app, resources=r'/api/*')
@@ -82,3 +82,12 @@ def get_total_stats_for_player(id):
       if not totals:
             return jsonify({"error": "player not found"}), 404
       return total_schema.jsonify(totals)
+
+# Get all upcoming games
+@app.route('/api/upcoming_game')
+def get_upcoming_games():
+      all_upcoming_games = UpcomingGame.query.all()
+      result = upcoming_games_schema.dump(all_upcoming_games)
+      return jsonify(result)
+
+
