@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+config.env
+IDEAS.md
+nba_stats_project_structure.md
+NBAProject_exec.ipynb
+run_notebook.bat
+cache/
+data/
+TodaysGames_Exec.ipynb
