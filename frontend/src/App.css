@@ -1,0 +1,155 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.navbar-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-h);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.nav-link.active {
+  border-color: var(--accent);
+}
+
+.navbar-search {
+  display: flex;
+  gap: 8px;
+}
+
+.navbar-search input {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  min-width: 180px;
+}
+
+.navbar-search button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-h);
+}
+
+.navbar-search button:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.page-content {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.view-card,
+.search-feedback {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: left;
+}
+
+.search-feedback h2 {
+  margin: 0 0 8px;
+}
+
+.hero-bracket-placeholder {
+  margin-top: 12px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featured-player-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 10px;
+}
+
+.featured-player-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.featured-player-item h3 {
+  margin: 0 0 4px;
+}
+
+.featured-player-item p {
+  margin: 2px 0;
+}
+
+.table-wrap {
+  margin-top: 12px;
+  overflow-x: auto;
+}
+
+.upcoming-games-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.upcoming-games-table th,
+.upcoming-games-table td {
+  border: 1px solid var(--border);
+  padding: 8px;
+  text-align: left;
+}
+
+.upcoming-games-table th {
+  color: var(--text-h);
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .navbar-search input {
+    min-width: 0;
+    width: 100%;
+  }
+}

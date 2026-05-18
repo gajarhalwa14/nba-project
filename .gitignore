@@ -1,10 +1,4 @@
-.env
-__pycache__/
-*.pyc
-config.env
+ARCHITECTURE.md
+HOMEPAGE_NAVBAR_PLAN.md
 IDEAS.md
 nba_stats_project_structure.md
-NBAProject_exec.ipynb
-run_notebook.bat
-cache/
-data/
