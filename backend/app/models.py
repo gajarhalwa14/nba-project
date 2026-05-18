@@ -118,7 +118,7 @@ class GameByGame(db.Model):
     __table_args__ = {"schema": "nba_data"}
 
     id             = db.Column(db.BigInteger, primary_key=True, nullable=False)
-    player_id      = db.Column(db.BigInteger, db.ForeignKey("nba_data.totals.player_id"))
+    player_id      = db.Column(db.BigInteger)
     date_est       = db.Column(db.Text)
     visitor_team   = db.Column(db.Text)
     home_team      = db.Column(db.Text)

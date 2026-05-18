@@ -3,6 +3,11 @@ from app import app
 from app.models import Player, Game, GameByGame, Totals, UpcomingGame, CurrentSeries
 from app.schema import player_schema, players_schema, game_schema, games_schema, gbg_schema, gbg_many_schema, total_schema, totals_schema, upcoming_game_schema, upcoming_games_schema, current_series_many_schema, current_series_schema
 from flask_cors import CORS
+from app.awards import calculate_potd, calculate_opod, calculate_dpod, calculate_cardio_man, calculate_brick_layer, calculate_traffic_cone
+import datetime
+from datetime import timedelta
+import pytz
+from nba_api.stats.static import players
 
 CORS(app, resources=r'/api/*')
 
@@ -107,4 +112,156 @@ def get_featured_players():
             return jsonify({"error": "No featured players found."}), 404
       return jsonify([row._asdict() for row in featured_players])
 
+@app.route('/api/last_night_performances')
+def get_players_for_today():
+      edt = pytz.timezone("America/New_York")
+      today_edt = datetime.datetime.now(edt).date()
 
+      yesterday = today_edt - timedelta(days=1)
+
+      # Get the string in the exact same format as date_str (mdy)
+      yesterday_str = yesterday.strftime("%m%d%Y")
+
+      performances = GameByGame.query.filter(GameByGame.date_string == yesterday_str)
+
+      if not performances:
+            return jsonify({"error": "no performances found"}), 404
+      return gbg_many_schema.jsonify(performances)
+
+@app.route('/api/potd')
+def get_potd():
+    edt = pytz.timezone("America/New_York")
+    today_edt = datetime.datetime.now(edt).date()
+
+    yesterday = today_edt - timedelta(days=1)
+
+    # Get the string in the exact same format as date_str (mdy)
+    yesterday_str = yesterday.strftime("%m%d%Y")
+
+    performances = GameByGame.query.filter(GameByGame.date_string == yesterday_str, GameByGame.actual_minutes > 20)
+    best_player, score = calculate_potd(performances)
+
+    if not best_player:
+        return jsonify({"error": "no performances for today"}), 404
+
+    player_name = players.find_player_by_id(best_player.player_id)
+
+    result = gbg_schema.dump(best_player)
+    result["player_name"] = player_name
+    result["score"] = score
+    return jsonify(result), 200
+
+@app.route('/api/opod')
+def get_opod():
+      edt = pytz.timezone("America/New_York")
+      today_edt = datetime.datetime.now(edt).date()
+
+      yesterday = today_edt - timedelta(days=1)
+
+      # Get the string in the exact same format as date_str (mdy)
+      yesterday_str = yesterday.strftime("%m%d%Y")
+
+      performances = GameByGame.query.filter(GameByGame.date_string == yesterday_str, GameByGame.actual_minutes > 20)
+      best_player, score = calculate_opod(performances)
+
+      if not best_player:
+            return jsonify({"error": "no performances for today"}), 404
+
+      player_name = players.find_player_by_id(best_player.player_id)
+
+      result = gbg_schema.dump(best_player)
+      result["player_name"] = player_name
+      result["score"] = score
+      return jsonify(result), 200
+
+@app.route('/api/dpod')
+def get_dpod():
+      edt = pytz.timezone("America/New_York")
+      today_edt = datetime.datetime.now(edt).date()
+
+      yesterday = today_edt - timedelta(days=1)
+
+      # Get the string in the exact same format as date_str (mdy)
+      yesterday_str = yesterday.strftime("%m%d%Y")
+
+      performances = GameByGame.query.filter(GameByGame.date_string == yesterday_str, GameByGame.actual_minutes > 20)
+      best_player, score = calculate_dpod(performances)
+
+      if not best_player:
+            return jsonify({"error": "no performances for today"}), 404
+
+      player_name = players.find_player_by_id(best_player.player_id)
+
+      result = gbg_schema.dump(best_player)
+      result["player_name"] = player_name
+      result["score"] = score
+      return jsonify(result), 200
+
+@app.route('/api/cardio_man')
+def get_cardio_man():
+    edt = pytz.timezone("America/New_York")
+    today_edt = datetime.datetime.now(edt).date()
+
+    yesterday = today_edt - timedelta(days=1)
+
+    # Get the string in the exact same format as date_str (mdy)
+    yesterday_str = yesterday.strftime("%m%d%Y")
+
+    performances = GameByGame.query.filter(GameByGame.date_string == yesterday_str, GameByGame.actual_minutes > 15)
+    worst_player, score = calculate_cardio_man(performances)
+
+    if not worst_player:
+        return jsonify({"error": "no performances for today"}), 404
+
+    player_name = players.find_player_by_id(worst_player.player_id)
+
+    result = gbg_schema.dump(worst_player)
+    result["player_name"] = player_name
+    result["score"] = score
+    return jsonify(result), 200
+
+@app.route('/api/brick_layer')
+def get_brick_layer():
+      edt = pytz.timezone("America/New_York")
+      today_edt = datetime.datetime.now(edt).date()
+
+      yesterday = today_edt - timedelta(days=1)
+
+      # Get the string in the exact same format as date_str (mdy)
+      yesterday_str = yesterday.strftime("%m%d%Y")
+
+      performances = GameByGame.query.filter(GameByGame.date_string == yesterday_str, GameByGame.actual_minutes > 15)
+      worst_player, score = calculate_brick_layer(performances)
+
+      if not worst_player:
+            return jsonify({"error": "no performances for today"}), 404
+
+      player_name = players.find_player_by_id(worst_player.player_id)
+
+      result = gbg_schema.dump(worst_player)
+      result["player_name"] = player_name
+      result["score"] = score
+      return jsonify(result), 200
+
+@app.route('/api/traffic_cone')
+def get_traffic_cone():
+      edt = pytz.timezone("America/New_York")
+      today_edt = datetime.datetime.now(edt).date()
+
+      yesterday = today_edt - timedelta(days=1)
+
+      # Get the string in the exact same format as date_str (mdy)
+      yesterday_str = yesterday.strftime("%m%d%Y")
+
+      performances = GameByGame.query.filter(GameByGame.date_string == yesterday_str, GameByGame.actual_minutes > 15)
+      worst_player, score = calculate_traffic_cone(performances)
+
+      if not worst_player:
+            return jsonify({"error": "no performances for today"}), 404
+
+      player_name = players.find_player_by_id(worst_player.player_id)
+
+      result = gbg_schema.dump(worst_player)
+      result["player_name"] = player_name
+      result["score"] = score
+      return jsonify(result), 200
